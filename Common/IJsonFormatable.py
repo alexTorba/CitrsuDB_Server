@@ -5,7 +5,7 @@ class IJsonFormatable:
     """Each class that will override this class must have annotations for all fields."""
 
     __metaclass__ = ABCMeta
-    __json_to_field: dict = NotImplemented
+    json_field_view: dict = NotImplemented
 
     @abstractmethod
     def to_json(self) -> dict:
@@ -13,4 +13,5 @@ class IJsonFormatable:
 
     def json_to_field(self, min_field: str) -> str:
         """convert minimize field to full name field"""
-        return self.__json_to_field[min_field]
+        temp_type = type(self.json_field_view)
+        return self.json_field_view[min_field]
