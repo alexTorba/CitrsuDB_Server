@@ -15,14 +15,17 @@ class JsonFormatter:
         fields = dict()
         fields.update(obj.to_json())
 
+        print(fields)  # todo: temp
+
         for k, v in fields.items():
+            if not isinstance(v, IJsonFormatable):
+                continue
             if hasattr(v, "__getitem__") and not isinstance(v, str):
                 for index, item in enumerate(v):
                     v[index] = JsonFormatter.__object_to_dict(item)
             else:
-                if isinstance(v, IJsonFormatable):
-                    v = JsonFormatter.__object_to_dict(v)
-                    fields[k] = v
+                v = JsonFormatter.__object_to_dict(v)
+                fields[k] = v
 
         return fields
 
@@ -41,13 +44,12 @@ class JsonFormatter:
                 instance.append(item)
         else:
             instance: cls = cls()
-            # todo:a из минимизированного значения получить полное имя поля ("p"=>"person")
             for name, value in obj.items():
-                if hasattr(instance, "json_to_field"):
-                    full_field_name = instance.json_to_field(min_field=name)
-                    type_instance = annotations.get(full_field_name)
+                full_field_name = instance.json_to_field(name)
+                type_instance = annotations.get(full_field_name)
+                if issubclass(type_instance, IJsonFormatable):
                     value = JsonFormatter.__json_to_instance(value, type_instance)
-                setattr(instance, name, value)
+                setattr(instance, full_field_name, value)
             return instance
 
     @staticmethod
