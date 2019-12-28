@@ -1,56 +1,54 @@
+import inspect
 from json import dumps
 from json import loads
 from typing import List
 
-from Common.IJsonFormatable import IJsonFormatable
+from Common.JsonContract import JsonContract
 
 
 class JsonFormatter:
 
     @staticmethod
     def __object_to_dict(obj):
-        if not isinstance(obj, IJsonFormatable):
-            raise Exception("the object must implement IJsonFormattable !")
+        if obj is None or not isinstance(obj, JsonContract):
+            raise Exception("the object must implement JsonContract !")
 
         fields = dict()
-        fields.update(obj.to_json())
-
-        print(fields)  # todo: temp
+        fields.update(obj.to_minimize_dict())
 
         for k, v in fields.items():
-            if not isinstance(v, IJsonFormatable):
-                continue
-            if hasattr(v, "__getitem__") and not isinstance(v, str):
+            if isinstance(v, JsonContract):
+                fields[k] = JsonFormatter.__object_to_dict(v)
+            elif hasattr(v, "__getitem__") and not isinstance(v, str):
                 for index, item in enumerate(v):
-                    v[index] = JsonFormatter.__object_to_dict(item)
-            else:
-                v = JsonFormatter.__object_to_dict(v)
-                fields[k] = v
+                    if isinstance(item, JsonContract):
+                        v[index] = JsonFormatter.__object_to_dict(item)
 
         return fields
 
     @staticmethod
-    def dumps(obj: IJsonFormatable) -> str:
+    def dumps(obj: JsonContract) -> str:
         obj_dict_view = JsonFormatter.__object_to_dict(obj)
         return dumps(obj_dict_view, ensure_ascii=False)
 
     @staticmethod
     def __json_to_instance(obj, cls: type):
-        annotations: dict = cls.__annotations__ if hasattr(cls, "__annotations__") else None
-        if issubclass(cls, List):
-            instance: List[cls] = list()
-            for item in obj:
-                item = JsonFormatter.__json_to_instance(item, type(item))
-                instance.append(item)
-        else:
-            instance: cls = cls()
-            for name, value in obj.items():
-                full_field_name = instance.json_to_field(name)
-                type_instance = annotations.get(full_field_name)
-                if issubclass(type_instance, IJsonFormatable):
-                    value = JsonFormatter.__json_to_instance(value, type_instance)
-                setattr(instance, full_field_name, value)
-            return instance
+        instance: cls = cls()
+        annotations: dict = cls.__annotations__
+
+        for name, value in obj.items():
+            full_field_name = instance.json_to_field(name)
+            type_value = annotations.get(full_field_name)
+            if hasattr(type_value, "__args__"):  # if type is Generic List with users type
+                items_type = type_value.__args__[0]
+                if inspect.isclass(items_type) and issubclass(items_type, JsonContract):
+                    for index, item in enumerate(value):
+                        item = JsonFormatter.__json_to_instance(item, items_type)
+                        value[index] = item
+            elif issubclass(type_value, JsonContract):
+                value = JsonFormatter.__json_to_instance(value, type_value)
+            setattr(instance, full_field_name, value)
+        return instance
 
     @staticmethod
     def loads(data: str, cls):

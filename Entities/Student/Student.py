@@ -1,7 +1,7 @@
-from Common.IJsonFormatable import IJsonFormatable
+from Common.JsonContract import JsonContract
 
 
-class Student(IJsonFormatable):
+class Student(JsonContract):
     Id: int
     FirstName: str
     LastName: str
@@ -15,26 +15,20 @@ class Student(IJsonFormatable):
     SecondPhoto: bytearray
     GroupId: int
 
-    def to_json(self) -> dict:
-        dict_view = {"i": self.Id,
-                     "f": self.FirstName,
-                     "l": self.LastName,
-                     "m": self.MiddleName,
-                     "d": self.DateOfBirth,
-                     "h": self.Height,
-                     "w": self.Weight,
-                     "c": self.Citizenship,
-                     "k": self.KnowledgeOfLanguage,
-                     }
-
-        if hasattr(self, "FirstPhoto"):
-            dict_view["fp"] = self.FirstPhoto
-        if hasattr(self, "SecondPhoto"):
-            dict_view["sp"] = self.SecondPhoto
-        if hasattr(self, "GroupId"):
-            dict_view["gi"] = self.GroupId
-
-        return dict_view
+    _json_field = {
+        "i": "Id",
+        "f": "FirstName",
+        "l": "LastName",
+        "m": "MiddleName",
+        "d": "DateOfBirth",
+        "h": "Height",
+        "w": "Weight",
+        "c": "Citizenship",
+        "k": "KnowledgeOfLanguage",
+        "fp": "FirstPhoto",
+        "sp": "SecondPhoto",
+        "gi": "GroupId"
+    }
 
     @staticmethod
     def get_test_student():

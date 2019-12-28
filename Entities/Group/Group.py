@@ -1,32 +1,26 @@
 from typing import List
 
-from Common.IJsonFormatable import IJsonFormatable
+from Common.JsonContract import JsonContract
 from Entities.Student.Student import Student
 
 
-class Group(IJsonFormatable):
+class Group(JsonContract):
     Id: int
     Name: str
     Photo: bytearray
-    Students: List[Student] = list()
+    Students: List[Student]
 
-    def to_json(self) -> dict:
-        dict_view = {
-            "i": self.Id,
-            "n": self.Name
-        }
-
-        if hasattr(self, "Photo"):
-            dict_view["p"] = self.Photo
-        if hasattr(self, "Students"):
-            dict_view["s"] = self.Students
-
-        return dict_view
+    _json_field = {
+        "i": "Id",
+        "n": "Name",
+        "p": "Photo",
+        "s": "Students"
+    }
 
     @staticmethod
     def get_test_group():
         group = Group()
         group.Id = 1
         group.Name = "КИУКИ 16-4"
-        group.Students = list()
+        group.Students = [Student.get_test_student()]
         return group
