@@ -1,7 +1,6 @@
 import inspect
 from json import dumps
 from json import loads
-from typing import List
 
 from Common.JsonContract import JsonContract
 

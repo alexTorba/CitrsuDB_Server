@@ -1,6 +1,4 @@
 def main():
-    # try initialize db
-    # start server
     pass
 
 

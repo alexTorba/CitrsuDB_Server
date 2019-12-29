@@ -1,7 +1,7 @@
 from typing import List
 
 from Common.JsonContract import JsonContract
-from Entities.Student.Student import Student
+from Entities.Student import Student
 
 
 class Group(JsonContract):
@@ -10,12 +10,14 @@ class Group(JsonContract):
     Photo: bytearray
     Students: List[Student]
 
-    _json_field = {
-        "i": "Id",
-        "n": "Name",
-        "p": "Photo",
-        "s": "Students"
-    }
+    @property
+    def _json_fields(self) -> dict:
+        return {
+            "i": "Id",
+            "n": "Name",
+            "p": "Photo",
+            "s": "Students"
+        }
 
     @staticmethod
     def get_test_group():

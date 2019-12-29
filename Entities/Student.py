@@ -15,20 +15,22 @@ class Student(JsonContract):
     SecondPhoto: bytearray
     GroupId: int
 
-    _json_field = {
-        "i": "Id",
-        "f": "FirstName",
-        "l": "LastName",
-        "m": "MiddleName",
-        "d": "DateOfBirth",
-        "h": "Height",
-        "w": "Weight",
-        "c": "Citizenship",
-        "k": "KnowledgeOfLanguage",
-        "fp": "FirstPhoto",
-        "sp": "SecondPhoto",
-        "gi": "GroupId"
-    }
+    @property
+    def _json_fields(self) -> dict:
+        return {
+            "i": "Id",
+            "f": "FirstName",
+            "l": "LastName",
+            "m": "MiddleName",
+            "d": "DateOfBirth",
+            "h": "Height",
+            "w": "Weight",
+            "c": "Citizenship",
+            "k": "KnowledgeOfLanguage",
+            "fp": "FirstPhoto",
+            "sp": "SecondPhoto",
+            "gi": "GroupId"
+        }
 
     @staticmethod
     def get_test_student():
