@@ -6,7 +6,6 @@ from Common.JsonContract import JsonContract
 
 
 class JsonFormatter:
-
     @staticmethod
     def __object_to_dict(obj):
         if obj is None or not isinstance(obj, JsonContract):
