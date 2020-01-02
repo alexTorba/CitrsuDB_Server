@@ -20,9 +20,9 @@ class GroupData(JsonContract):
         }
 
     @staticmethod
-    def get_test_group():
-        group = GroupData()
-        group.Id = 1
-        group.Name = "КИУКИ 16-4"
-        group.Students = [StudentData.get_test_student()]
-        return group
+    def get_test_group_data():
+        group_data = GroupData()
+        group_data.Id = 1
+        group_data.Name = "КИУКИ 16-4"
+        group_data.Students = [StudentData.get_test_student()]
+        return group_data

@@ -33,7 +33,7 @@ class StudentData(JsonContract):
         }
 
     @staticmethod
-    def get_test_student():
+    def get_test_student_data():
         student = StudentData()
         student.Id = 1
         student.FirstName = "Alex"

@@ -19,5 +19,5 @@ class IEntity:
 
     @property
     @abstractmethod
-    def entity_type(self) -> EntityType:
+    def entity_type(self):
         pass
