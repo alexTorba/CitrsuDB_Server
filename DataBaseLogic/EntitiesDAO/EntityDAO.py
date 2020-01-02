@@ -4,7 +4,6 @@ from Entities.EntityType import EntityType
 
 
 class EntityDAO(metaclass=ABCMeta):
-
     _cursor: Cursor
     __create_table: str = """CREATE TABLE IF NOT EXISTS [{table_name}] ([Id] INTEGER PRIMARY KEY AUTOINCREMENT, [Data] TEXT NOT NULL)"""
 

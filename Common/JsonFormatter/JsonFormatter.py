@@ -2,7 +2,7 @@ import inspect
 from json import dumps
 from json import loads
 
-from Common.JsonContract import JsonContract
+from Common.JsonFormatter.JsonContract import JsonContract
 
 
 class JsonFormatter:

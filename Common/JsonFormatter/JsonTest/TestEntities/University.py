@@ -1,6 +1,6 @@
 from typing import List
 
-from Common.JsonContract import JsonContract
+from Common.JsonFormatter.JsonContract import JsonContract
 from Entities.Group import Group
 
 

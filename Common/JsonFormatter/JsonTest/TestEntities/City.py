@@ -1,7 +1,7 @@
 from typing import List
 
-from Common.JsonContract import JsonContract
-from Common.JsonTest.TestEntities.University import University
+from Common.JsonFormatter.JsonContract import JsonContract
+from Common.JsonFormatter.JsonTest.TestEntities.University import University
 
 
 class City(JsonContract):

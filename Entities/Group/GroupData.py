@@ -1,14 +1,14 @@
 from typing import List
 
-from Common.JsonContract import JsonContract
-from Entities.Student import Student
+from Common.JsonFormatter.JsonContract import JsonContract
+from Entities.Student.StudentData import StudentData
 
 
-class Group(JsonContract):
+class GroupData(JsonContract):
     Id: int
     Name: str
     Photo: bytearray
-    Students: List[Student]
+    Students: List[StudentData]
 
     @property
     def _json_fields(self) -> dict:
@@ -21,8 +21,8 @@ class Group(JsonContract):
 
     @staticmethod
     def get_test_group():
-        group = Group()
+        group = GroupData()
         group.Id = 1
         group.Name = "КИУКИ 16-4"
-        group.Students = [Student.get_test_student()]
+        group.Students = [StudentData.get_test_student()]
         return group

@@ -1,7 +1,7 @@
-from Common.JsonContract import JsonContract
+from Common.JsonFormatter.JsonContract import JsonContract
 
 
-class Student(JsonContract):
+class StudentData(JsonContract):
     Id: int
     FirstName: str
     LastName: str
@@ -34,7 +34,7 @@ class Student(JsonContract):
 
     @staticmethod
     def get_test_student():
-        student = Student()
+        student = StudentData()
         student.Id = 1
         student.FirstName = "Alex"
         student.LastName = "Torba"
