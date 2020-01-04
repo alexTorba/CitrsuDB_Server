@@ -24,5 +24,5 @@ class GroupData(JsonContract):
         group_data = GroupData()
         group_data.Id = 1
         group_data.Name = "КИУКИ 16-4"
-        group_data.Students = [StudentData.get_test_student()]
+        group_data.Students = [StudentData.get_test_student_data()]
         return group_data

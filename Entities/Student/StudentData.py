@@ -33,17 +33,17 @@ class StudentData(JsonContract):
         }
 
     @staticmethod
-    def get_test_student_data():
-        student = StudentData()
-        student.Id = 1
-        student.FirstName = "Alex"
-        student.LastName = "Torba"
-        student.MiddleName = "Olegovich"
-        student.DateOfBirth = "29.04.1998"
-        student.Height = 180
-        student.Weight = 68
-        student.Citizenship = "Ukraine"
-        student.KnowledgeOfLanguage = "Russian, Ukraine, English"
-        student.GroupId = 1
+    def get_test_student_data() -> "StudentData":
+        student_data = StudentData()
+        student_data.Id = 1
+        student_data.FirstName = "Alex"
+        student_data.LastName = "Torba"
+        student_data.MiddleName = "Olegovich"
+        student_data.DateOfBirth = "29.04.1998"
+        student_data.Height = 180
+        student_data.Weight = 68
+        student_data.Citizenship = "Ukraine"
+        student_data.KnowledgeOfLanguage = "Russian, Ukraine, English"
+        student_data.GroupId = 1
 
-        return student
+        return student_data

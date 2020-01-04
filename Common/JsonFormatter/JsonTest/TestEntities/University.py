@@ -1,7 +1,7 @@
 from typing import List
 
 from Common.JsonFormatter.JsonContract import JsonContract
-from Entities.Group import Group
+from Entities.Group.Group import Group
 
 
 class University(JsonContract):

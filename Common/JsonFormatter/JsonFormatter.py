@@ -3,6 +3,7 @@ from json import dumps
 from json import loads
 
 from Common.JsonFormatter.JsonContract import JsonContract
+from Common.JsonFormatter.TypeInspect import TypeInspect
 
 
 class JsonFormatter:
@@ -25,15 +26,14 @@ class JsonFormatter:
         return fields
 
     @staticmethod
-    def dumps(obj: JsonContract) -> str:
+    def serialize(obj: JsonContract) -> str:
         obj_dict_view = JsonFormatter.__object_to_dict(obj)
         return dumps(obj_dict_view, ensure_ascii=False)
 
     @staticmethod
     def __json_to_instance(obj, cls: type):
         instance: cls = cls()
-        annotations: dict = cls.__annotations__
-
+        annotations: dict = TypeInspect.get_annotations(cls)
         for name, value in obj.items():
             full_field_name = instance.json_to_field(name)
             type_value = annotations.get(full_field_name)
@@ -49,6 +49,6 @@ class JsonFormatter:
         return instance
 
     @staticmethod
-    def loads(data: str, cls):
+    def deserialize(data: str, cls: type):
         obj = loads(data)
         return JsonFormatter.__json_to_instance(obj, cls)

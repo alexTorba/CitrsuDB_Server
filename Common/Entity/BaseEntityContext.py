@@ -1,10 +1,10 @@
 from abc import ABCMeta
 from typing import Generic, TypeVar
 
-from Common.Entity.IEntity import IEntity
+from Common.Entity.BaseEntity import BaseEntity
 from DataBaseLogic.DBManager import DBManager
 
-T = TypeVar("T", IEntity, object)
+T = TypeVar("T", BaseEntity, object)
 
 
 class BaseEntityContext(Generic[T]):
@@ -26,5 +26,5 @@ class BaseEntityContext(Generic[T]):
         if self.__isDirty:
             self.__isDirty = False
             self._db_manager.update(self.entity_data.entity_type,
-                                    self.entity_data.Id,
+                                    self.entity_data.id,
                                     self.entity_data.data)

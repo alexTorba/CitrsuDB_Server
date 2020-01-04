@@ -1,22 +1,17 @@
-from Common.Entity.IEntity import IEntity
-from Common.JsonFormatter.JsonContract import JsonContract
+from Common.Entity.BaseEntity import BaseEntity
 from Entities.EntityType import EntityType
-from Entities.Student import StudentData
+from Entities.Student.StudentData import StudentData
 
 
-class Student(IEntity):
-    Id: int
-    data: JsonContract
-    entity_type: EntityType
+class Student(BaseEntity[StudentData]):
+    entity_type: EntityType = EntityType.student
 
-    def __init__(self, entity_id: int, data: JsonContract) -> None:
-        self.Id = entity_id
-        self.data = data
+    def __init__(self, entity_id: int = None, data: StudentData = None) -> None:
+        super().__init__(entity_id, data)
         self.entity_type = EntityType.student
 
     @staticmethod
     def get_test_student():
-        student = Student()
         student_data: StudentData = StudentData.get_test_student_data()
-        student.data = student_data
+        student = Student(student_data.Id, student_data)
         return student

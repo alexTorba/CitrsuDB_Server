@@ -2,9 +2,14 @@ import types
 from abc import ABC, abstractmethod
 from copy import copy
 
+from Entities.EntityType import EntityType
+
 
 class JsonContract(ABC):
-    """Each class that will override this class must have annotations for all fields and implement _json_field"""
+    """Each class that will override this class must have :\n
+    - annotations for all fields\n
+    - implement _json_field\n
+    - open ctor\n"""
 
     @property
     @abstractmethod
@@ -26,7 +31,8 @@ class JsonContract(ABC):
                 or isinstance(v, types.FunctionType) \
                 or isinstance(v, staticmethod) \
                 or isinstance(v, classmethod) \
-                or isinstance(v, property):
+                or isinstance(v, property) \
+                or isinstance(v, EntityType):
             return False
         return True
 
