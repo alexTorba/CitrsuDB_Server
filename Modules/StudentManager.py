@@ -29,6 +29,12 @@ class StudentManager:
 
     @staticmethod
     def update_student(dto: StudentDto):
-        cx = CacheItemManager.get(EntityType.student, dto.student.id)
-        cx.edit().data = dto.student.data
-        cx.save()
+        # cx = CacheItemManager.get(EntityType.student, dto.student.id)
+        # cx.edit().data = dto.student.data
+        # cx.save()
+        pass
+
+    @staticmethod
+    def init(handler: dict):
+        handler["CreateStudent"] = StudentManager.create_student
+        handler["DeleteStudent"] = StudentManager.delete_student

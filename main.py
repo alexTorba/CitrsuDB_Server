@@ -1,9 +1,8 @@
- def test():
-    print()
+from Modules.HttpManager import HttpManager
 
 
 def main():
-    test()
+    HttpManager.start_server()
 
 
 if __name__ == '__main__':

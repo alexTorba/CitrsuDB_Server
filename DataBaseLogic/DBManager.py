@@ -26,9 +26,10 @@ class DBManager:
     def __get_appropriate_dao(self, entity_type: EntityType) -> EntityDAO:
         return [i for i in self.__daos if i.entity_type == entity_type][0]
 
-    def create(self, entity_type: EntityType, data):
-        self.__get_appropriate_dao(entity_type).create(data)
+    def create(self, entity_type: EntityType, data) -> int:
+        last_id = self.__get_appropriate_dao(entity_type).create(data)
         self.__conn.commit()
+        return last_id
 
     def read(self, entity_type: EntityType, Id):
         self.__get_appropriate_dao(entity_type).read(Id)

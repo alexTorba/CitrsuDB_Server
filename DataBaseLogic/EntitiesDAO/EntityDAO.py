@@ -34,9 +34,10 @@ class EntityDAO(metaclass=ABCMeta):
         query: str = self.__create_table.format(table_name=self.table_name)
         self._cursor.execute(query)
 
-    def create(self, data):
+    def create(self, data) -> int:  # return last id
         query: str = self.__create_query.format(table_name=self.table_name)
         self._cursor.execute(query, (data,))
+        return self._cursor.lastrowid
 
     def read(self, Id):
         query: str = self.__read_query.format(
