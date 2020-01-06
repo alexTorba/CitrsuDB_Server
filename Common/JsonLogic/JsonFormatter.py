@@ -1,9 +1,6 @@
 import inspect
-from json import dumps
-from json import loads
-
-from Common.JsonFormatter.JsonContract import JsonContract
-from Common.JsonFormatter.TypeInspect import TypeInspect
+from json import dumps, loads
+from Common.JsonLogic import JsonContract, TypeInspect
 
 
 class JsonFormatter:

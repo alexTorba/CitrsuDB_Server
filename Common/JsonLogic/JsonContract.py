@@ -16,12 +16,14 @@ class JsonContract(ABC):
     def _json_fields(self) -> dict:  # key = minimized field name, value = full field name
         pass
 
-    __field_json: dict = NotImplemented  # key = full field name, value = minimized field name
+    # key = full field name, value = minimized field name
+    __field_json: dict = NotImplemented
 
     def to_minimize_dict(self) -> dict:
         """format object to minimize dict"""
         if self.__field_json is NotImplemented:
-            self.__field_json = dict(zip(self._json_fields.values(), self._json_fields.keys()))
+            self.__field_json = dict(
+                zip(self._json_fields.values(), self._json_fields.keys()))
         return {self.__field_json[n]: copy(v) for n, v in self.__get_full_dict().items() if
                 JsonContract.__filter_items(n, v)}
 
@@ -38,6 +40,9 @@ class JsonContract(ABC):
 
     def __get_full_dict(self) -> dict:
         return dict(self.__dict__, **self.__class__.__dict__)
+
+    def _update_json_fields(self, json_fields: Dict[str, str]) -> None:
+        self._json_fields.update(json_fields)
 
     def json_to_field(self, min_field: str) -> str:
         """convert minimize field to full name field"""

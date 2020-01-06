@@ -1,8 +1,10 @@
-from Modules.HttpManager import HttpManager
+
+
+from Modules import ServerManager
 
 
 def main():
-    HttpManager.start_server()
+    ServerManager.start_server()
 
 
 if __name__ == '__main__':
