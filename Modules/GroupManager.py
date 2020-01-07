@@ -1,7 +1,5 @@
-from typing import Dict, Callable
-
-from Common.JsonFormatter.JsonContract import JsonContract
-from Common.JsonFormatter.JsonFormatter import JsonFormatter
+from Common.JsonLogic.JsonContract import JsonContract
+from Common.JsonLogic.JsonFormatter import JsonFormatter
 from Entities.EntityType import EntityType
 from Entities.Group.Group import Group
 from Modules.CacheItemManager import CacheItemManager

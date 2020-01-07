@@ -1,6 +1,4 @@
-
-
-from Modules import ServerManager
+from Modules.ServerManager import ServerManager
 
 
 def main():

@@ -5,20 +5,26 @@ from typing import TypeVar
 class TypeInspect:
     @staticmethod
     def get_annotations(cls: type) -> dict:
-        full__ann = TypeInspect.__get_full_annotations(cls)
+        full__ann = TypeInspect.get_full_annotations(cls)
         TypeInspect.__set_generic_type(cls, full__ann)
         return full__ann
 
     @staticmethod
-    def __get_full_annotations(cls: type) -> dict:
+    def get_full_annotations(cls: type) -> dict:  # todo: make private
         if not hasattr(cls, "__annotations__"):
             return dict()
         annotation: dict = cls.__annotations__
         if hasattr(cls, "__bases__"):
             bases = cls.__bases__
             for b in bases:
-                annotation.update(TypeInspect.__get_full_annotations(b))
+                annotation.update(TypeInspect.get_full_annotations(b))
         return annotation
+
+    @staticmethod
+    def get__full_annotations_instance(instance: object) -> dict:
+        a = instance.__annotations__
+        a.update(instance.__class__.__annotations__)
+        return a
 
     @staticmethod
     def __set_generic_type(cls: type, annotations: dict) -> None:

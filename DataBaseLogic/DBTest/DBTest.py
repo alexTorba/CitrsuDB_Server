@@ -1,6 +1,6 @@
+from Common.JsonLogic.JsonFormatter import JsonFormatter
 from Entities.Group.Group import Group
 from DataBaseLogic.DBManager import DBManager
-from Common.JsonFormatter.JsonFormatter import JsonFormatter
 from Entities.EntityType import EntityType
 
 

@@ -1,9 +1,7 @@
 from Common.JsonLogic.JsonContract import JsonContract
-from typing import TypeVar
-T = TypeVar("T", bound=JsonContract)
 
 
-class BaseRequestDto(JsonContract):
+class BaseRequestDto(JsonContract, object):
     server_method: str
 
     _json_fields = {

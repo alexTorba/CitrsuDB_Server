@@ -1,6 +1,6 @@
 from typing import Dict
 
-from Common.Cache.BaseCache import BaseCache
+from Common.CacheLogic.BaseCache import BaseCache
 from Entities.EntityType import EntityType
 from Entities.Student.Student import Student
 

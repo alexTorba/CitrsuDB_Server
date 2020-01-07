@@ -1,34 +1,34 @@
 import socketserver
-from typing import Dict, cast
-from Common.NetworkLogic.BaseRequestDto import BaseRequestDto
+
 from Common.JsonLogic.JsonFormatter import JsonFormatter
-
-
-class Test(JsonContract):
-    age: int
-    name: str
-    _json_fields = {
-        "a": "age",
-        "n": "name"
-    }
-
-    def __init__(self, age=None, name=None):
-        if age is not None:
-            self.age = age
-        if name is not None:
-            self.name = name
+from Common.NetworkLogic.Request.BaseRequestDto import BaseRequestDto
+from Modules.StudentManager import StudentManager
 
 
 class TCPHandler(socketserver.ThreadingMixIn, socketserver.BaseRequestHandler):
-    __method_type: Dict[str, type] = {"test", Test}
+    # key - command_name, value - tuple(dto_type, handler)
+    __method_handler: dict
+    __managers: list = [StudentManager]
+
+    def __init__(self, request, client_address, server):
+        super().__init__(request, client_address, server)
+        for m in self.__managers:
+            m.init(self.__method_handler)
 
     def handle(self):
-        data = self.request.recv(2048).strip().decode()
-        base_dto = cast(JsonFormatter.deserialize(data, BaseRequestDto), BaseRequestDto)
-        print(base_dto.server_method)
+        data, socket = self.request
+        data = data.decode("utf-8")
+
+        base_dto = JsonFormatter.deserialize(data, BaseRequestDto)
+        (dto_type, handler) = self.__method_handler.get(base_dto.server_method)
+        dto = JsonFormatter.deserialize(data, dto_type)
+        responce_dto = handler(dto)
+        j_son = JsonFormatter.serialize(responce_dto)
+        responce_data = bytes(j_son, "utf-8")
+        socket.send(responce_data)
 
     @staticmethod
-    def start_listating():
+    def start_listening():
         with socketserver.TCPServer(("127.0.0.1", 8888), TCPHandler) as sock:
             print("Start listening")
             sock.serve_forever()

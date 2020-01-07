@@ -1,7 +1,7 @@
-from Common.NetworkLogic import TCPHandler
+from Common.NetworkLogic.TCPHandler import TCPHandler
 
 
 class ServerManager:
     @staticmethod
     def start_server():
-        TCPHandler.start_listating()
+        TCPHandler.start_listening()

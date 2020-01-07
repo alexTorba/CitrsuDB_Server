@@ -1,6 +1,7 @@
 import types
 from abc import ABC, abstractmethod
 from copy import copy
+from typing import Dict
 
 from Entities.EntityType import EntityType
 
@@ -46,4 +47,4 @@ class JsonContract(ABC):
 
     def json_to_field(self, min_field: str) -> str:
         """convert minimize field to full name field"""
-        return self._json_fields[min_field]
+        return self._json_fields.get(min_field)

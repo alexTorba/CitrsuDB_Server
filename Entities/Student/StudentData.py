@@ -1,4 +1,4 @@
-from Common.JsonFormatter.JsonContract import JsonContract
+from Common.JsonLogic.JsonContract import JsonContract
 
 
 class StudentData(JsonContract):

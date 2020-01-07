@@ -1,7 +1,9 @@
+import typing
 from typing import TypeVar
-from typing import Generic
-from Common.JsonFormatter.JsonContract import JsonContract
-from Common.NetworkLogic.BaseRequestDto import BaseRequestDto
+
+from Common.JsonLogic.JsonContract import JsonContract
+from Common.NetworkLogic.Request.BaseRequestDto import BaseRequestDto
+
 T = TypeVar("T", bound=JsonContract)
 
 

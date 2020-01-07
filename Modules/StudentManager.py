@@ -1,30 +1,26 @@
-from Common.JsonFormatter.JsonContract import JsonContract
-from Common.JsonFormatter.JsonFormatter import JsonFormatter
+from Common.JsonLogic.JsonFormatter import JsonFormatter
+from Common.NetworkLogic.Request.RequestDto import RequestDto
+from Common.NetworkLogic.Responce.BaseResponceDto import BaseResponceDto
 from Entities.EntityType import EntityType
 from Entities.Student.Student import Student
 from Modules.CacheItemManager import CacheItemManager
 
 
 class StudentManager:
-    class StudentDto(JsonContract):
-        student: Student
-
-        @property
-        def _json_fields(self) -> dict:
-            return {
-                "s": "student"
-            }
+    class StudentDto(RequestDto[Student]):
+        pass
 
     @staticmethod
-    def create_student(dto: StudentDto):
-        student = dto.student
+    def create_student(dto: StudentDto) -> BaseResponceDto:
+        student = dto.data
         # todo: validate student
         s_json = JsonFormatter.serialize(student)
         CacheItemManager.add(EntityType.student, s_json)
+        return BaseResponceDto(200)
 
     @staticmethod
     def delete_student(dto: StudentDto):
-        student = dto.student
+        student = dto.data
         CacheItemManager.remove(EntityType.student, student.id)
 
     @staticmethod
@@ -36,5 +32,4 @@ class StudentManager:
 
     @staticmethod
     def init(handler: dict):
-        handler["CreateStudent"] = StudentManager.create_student
-        handler["DeleteStudent"] = StudentManager.delete_student
+        handler["CreateStudent"] = (StudentManager.StudentDto, StudentManager.create_student)

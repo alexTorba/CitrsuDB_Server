@@ -1,8 +1,8 @@
 from typing import List, cast
 
-from Common.Cache.BaseCache import BaseCache
+from Common.CacheLogic.BaseCache import BaseCache
 from Common.Entity.BaseEntity import BaseEntity
-from Common.JsonFormatter.JsonFormatter import JsonFormatter
+from Common.JsonLogic.JsonFormatter import JsonFormatter
 from DataBaseLogic.DBManager import DBManager
 from Entities.EntityFactory import EntityFactory
 from Entities.EntityType import EntityType

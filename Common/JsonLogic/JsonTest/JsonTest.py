@@ -1,5 +1,5 @@
-from Common.JsonFormatter.JsonFormatter import JsonFormatter
-from Common.JsonFormatter.JsonTest.TestEntities.City import City
+from Common.JsonLogic.JsonFormatter import JsonFormatter
+from Common.JsonLogic.JsonTest.TestEntities.City import City
 from Entities.Group.Group import Group
 from Entities.Student.Student import Student
 

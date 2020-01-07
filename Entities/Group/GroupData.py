@@ -1,6 +1,6 @@
 from typing import List
 
-from Common.JsonFormatter.JsonContract import JsonContract
+from Common.JsonLogic.JsonContract import JsonContract
 from Entities.Student.StudentData import StudentData
 
 

@@ -1,7 +1,7 @@
 from abc import abstractmethod, ABC
 from typing import TypeVar, Generic
 
-from Common.JsonFormatter.JsonContract import JsonContract
+from Common.JsonLogic.JsonContract import JsonContract
 
 T = TypeVar("T", JsonContract, object)
 

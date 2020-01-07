@@ -1,6 +1,7 @@
 import inspect
 from json import dumps, loads
-from Common.JsonLogic import JsonContract, TypeInspect
+from Common.JsonLogic.JsonContract import JsonContract
+from Common.JsonLogic.TypeInspect import TypeInspect
 
 
 class JsonFormatter:
@@ -33,6 +34,8 @@ class JsonFormatter:
         annotations: dict = TypeInspect.get_annotations(cls)
         for name, value in obj.items():
             full_field_name = instance.json_to_field(name)
+            if full_field_name is None:
+                continue  # in case when try to serialize base class of instance
             type_value = annotations.get(full_field_name)
             if hasattr(type_value, "__args__"):  # if type is Generic List with users type
                 items_type = type_value.__args__[0]
