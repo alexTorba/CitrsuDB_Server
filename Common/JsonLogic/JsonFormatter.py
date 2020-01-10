@@ -50,5 +50,7 @@ class JsonFormatter:
 
     @staticmethod
     def deserialize(data: str, cls: type):
+        if not isinstance(data, str):
+            raise TypeError("data must be a string !")
         obj = loads(data)
         return JsonFormatter.__json_to_instance(obj, cls)

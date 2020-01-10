@@ -1,30 +1,27 @@
 import inspect
-from typing import TypeVar
+from typing import TypeVar, get_origin
 
 
 class TypeInspect:
     @staticmethod
     def get_annotations(cls: type) -> dict:
-        full__ann = TypeInspect.get_full_annotations(cls)
+        full__ann = TypeInspect.__get_full_annotations(cls)
         TypeInspect.__set_generic_type(cls, full__ann)
         return full__ann
 
     @staticmethod
-    def get_full_annotations(cls: type) -> dict:  # todo: make private
+    def __get_full_annotations(cls: type) -> dict:
+        origin = get_origin(cls)  # get class instead of _GenericAlias
+        if origin is not None:
+            cls = origin
         if not hasattr(cls, "__annotations__"):
             return dict()
         annotation: dict = cls.__annotations__
         if hasattr(cls, "__bases__"):
             bases = cls.__bases__
             for b in bases:
-                annotation.update(TypeInspect.get_full_annotations(b))
+                annotation.update(TypeInspect.__get_full_annotations(b))
         return annotation
-
-    @staticmethod
-    def get__full_annotations_instance(instance: object) -> dict:
-        a = instance.__annotations__
-        a.update(instance.__class__.__annotations__)
-        return a
 
     @staticmethod
     def __set_generic_type(cls: type, annotations: dict) -> None:
@@ -34,5 +31,8 @@ class TypeInspect:
 
     @staticmethod
     def __get_generic_type(cls: type) -> type:
-        a = [attr for attr in inspect.classify_class_attrs(cls) if attr.name == '__orig_bases__'][0].object[0]
-        return a.__dict__.get("__args__")[0]
+        if get_origin(cls) is not None:
+            return cls.__dict__.get("__args__")[0]
+        base_classes = [attr for attr in inspect.classify_class_attrs(cls) if attr.name == '__orig_bases__'][0].object
+        generic = [c for c in base_classes if get_origin(c) is not None][0]
+        return generic.__dict__.get("__args__")[0]

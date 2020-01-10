@@ -7,3 +7,7 @@ class BaseRequestDto(JsonContract, object):
     _json_fields = {
         "s": "server_method",
     }
+
+    def __init__(self, server_method: str) -> None:
+        if server_method is not None:
+            self.server_method = server_method

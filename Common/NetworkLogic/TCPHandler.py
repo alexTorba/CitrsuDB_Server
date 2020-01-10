@@ -22,6 +22,7 @@ class TCPHandler(socketserver.ThreadingMixIn, socketserver.BaseRequestHandler):
         base_dto = JsonFormatter.deserialize(data, BaseRequestDto)
         (dto_type, handler) = self.__method_handler.get(base_dto.server_method)
         dto = JsonFormatter.deserialize(data, dto_type)
+
         responce_dto = handler(dto)
         j_son = JsonFormatter.serialize(responce_dto)
         responce_data = bytes(j_son, "utf-8")

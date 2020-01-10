@@ -31,5 +31,5 @@ class StudentManager:
         pass
 
     @staticmethod
-    def init(handler: dict):
-        handler["CreateStudent"] = (StudentManager.StudentDto, StudentManager.create_student)
+    def init(handlers: dict):
+        handlers["CreateStudent"] = (StudentManager.StudentDto, StudentManager.create_student)
