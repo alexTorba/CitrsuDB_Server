@@ -1,7 +1,7 @@
 from typing import List
 
 from Common.JsonLogic.JsonContract import JsonContract
-from Common.JsonLogic.JsonTest.TestEntities.University import University
+from Common.JsonLogic.JsonTest.TestEntities.Univercity.University import University
 
 
 class City(JsonContract):
@@ -16,8 +16,8 @@ class City(JsonContract):
         }
 
     @staticmethod
-    def get_test():
+    def get_test_city():
         c = City()
         c.name = "Kharkov"
-        c.universities = [University.get_test(), University.get_test(), University.get_test()]
+        c.universities = [University.get_test_university(), University.get_test_university(), University.get_test_university()]
         return c
