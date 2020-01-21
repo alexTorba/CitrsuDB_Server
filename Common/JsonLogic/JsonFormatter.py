@@ -40,14 +40,17 @@ class JsonFormatter:
             if full_field_name is None:
                 continue  # in case when try to serialize base class of instance
             type_value = annotations.get(full_field_name)
-            # if type is Generic List with users type
+            # if type is Generic
             origin_type_value = typing.get_origin(type_value)
-            if origin_type_value is not None and issubclass(origin_type_value, typing.List):
+            if origin_type_value is not None:
                 items_type = type_value.__args__[0]
                 if inspect.isclass(items_type) and issubclass(items_type, JsonContract):
-                    for index, item in enumerate(value):
-                        item = JsonFormatter.__json_to_instance(item, items_type)
-                        value[index] = item
+                    if issubclass(origin_type_value, typing.List):
+                        for index, item in enumerate(value):
+                            item = JsonFormatter.__json_to_instance(item, items_type)
+                            value[index] = item
+                    else:
+                        value = JsonFormatter.__json_to_instance(value, type_value)
             elif inspect.isclass(type_value) and issubclass(type_value, JsonContract):
                 value = JsonFormatter.__json_to_instance(value, type_value)
             setattr(instance, full_field_name, value)
