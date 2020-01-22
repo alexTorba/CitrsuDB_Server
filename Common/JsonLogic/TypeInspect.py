@@ -33,6 +33,4 @@ class TypeInspect:
     def __get_generic_type(cls: type) -> type:
         if get_origin(cls) is not None:
             return cls.__dict__.get("__args__")[0]
-        base_classes = [attr for attr in inspect.classify_class_attrs(cls) if attr.name == '__orig_bases__'][0].object
-        generic = [c for c in base_classes if get_origin(c) is not None][0]
-        return generic.__dict__.get("__args__")[0]
+        return inspect.getattr_static(cls, "__orig_bases__")[0].__dict__.get("__args__")[0]
