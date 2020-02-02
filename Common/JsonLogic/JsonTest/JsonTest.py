@@ -1,10 +1,10 @@
 from datetime import datetime
-from typing import List
+from typing import List, Dict
 
 from Common.JsonLogic.JsonFormatter import JsonFormatter
 from Common.JsonLogic.JsonTest.TestEntities.City import City
 from Common.JsonLogic.JsonTest.TestEntities.Univercity.University import University
-from Common.JsonLogic.JsonTest.TestEntities.Univercity.UniversityData import UniversityData
+from Common.JsonLogic.TypeInspect import TypeInspect
 from Entities.Group.Group import Group
 from Entities.Group.GroupData import GroupData
 from Entities.Student.Student import Student
@@ -22,7 +22,13 @@ class JsonTest:
 
     @staticmethod
     def test_group():
+        students: List[StudentData] = list()
+        for i in range(0,9):
+            student = Student.get_test_student()
+            students.append(student.data)
+
         g = Group.get_test_group()
+        g.data.Students = students
         g_json = JsonFormatter.serialize(g)
         g_Val = JsonFormatter.deserialize(g_json, Group)
         print()
@@ -63,3 +69,14 @@ class JsonTest:
         for i in range(0, iterations):
             count += JsonTest.json_speed_test()
         print(count / iterations)
+
+    @staticmethod
+    def test_annotations():
+        my_dict: Dict[type, dict] = dict()
+        my_dict[Student] = {"a": str}
+        if Student in my_dict:
+            print("+")
+        print()
+
+
+JsonTest.json_speed_average_test(20)

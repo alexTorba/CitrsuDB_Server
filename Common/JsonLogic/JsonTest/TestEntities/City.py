@@ -19,5 +19,6 @@ class City(JsonContract):
     def get_test_city():
         c = City()
         c.name = "Kharkov"
-        c.universities = [University.get_test_university(), University.get_test_university(), University.get_test_university()]
+        c.universities = [University.get_test_university(), University.get_test_university(),
+                          University.get_test_university()]
         return c

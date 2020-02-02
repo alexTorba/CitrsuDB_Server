@@ -1,12 +1,19 @@
 import inspect
-from typing import TypeVar, get_origin
+from typing import TypeVar, get_origin, Dict
 
 
 class TypeInspect:
-    @staticmethod
-    def get_annotations(cls: type) -> dict:
-        full__ann = TypeInspect.__get_full_annotations(cls)
-        TypeInspect.__set_generic_type(cls, full__ann)
+    __cache: Dict[type, dict] = dict()
+
+    @classmethod
+    def get_annotations(cls, inspected_type: type) -> dict:
+        if inspected_type in TypeInspect.__cache:
+            return TypeInspect.__cache[inspected_type]
+
+        full__ann = TypeInspect.__get_full_annotations(inspected_type)
+        TypeInspect.__set_generic_type(inspected_type, full__ann)
+
+        TypeInspect.__cache[inspected_type] = full__ann
         return full__ann
 
     @staticmethod

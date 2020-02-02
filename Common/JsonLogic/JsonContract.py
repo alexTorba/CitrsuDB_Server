@@ -17,15 +17,13 @@ class JsonContract(ABC):
     def _json_fields(self) -> dict:  # key = minimized field name, value = full field name
         pass
 
-    # key = full field name, value = minimized field name
-    __field_json: dict = NotImplemented
+    __field_json: dict = NotImplemented  # key = full field name, value = minimized field name
 
     def to_minimize_dict(self) -> dict:
         """format object to minimize dict"""
         if self.__field_json is NotImplemented:
             self.__field_json = dict(zip(self._json_fields.values(), self._json_fields.keys()))
-        return {self.__field_json[n]: copy(v) for n, v in self.__get_full_dict().items()
-                if JsonContract.__filter_items(n, v)}
+        return {self.__field_json[n]: copy(v) for n, v in self.__get_full_dict().items() if JsonContract.__filter_items(n, v)}
 
     @staticmethod
     def __filter_items(n: str, v):
