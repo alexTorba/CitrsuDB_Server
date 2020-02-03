@@ -8,7 +8,6 @@ class Student(BaseEntity[StudentData]):
 
     def __init__(self, entity_id: int = None, data: StudentData = None) -> None:
         super().__init__(entity_id, data)
-        self.entity_type = EntityType.student
 
     @staticmethod
     def get_test_student():
