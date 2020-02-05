@@ -96,7 +96,7 @@ class JsonTest:
 
     @staticmethod
     def json_speed_test():
-        entity_count = 50
+        entity_count = 10
         iterations = 20
 
         repo = git.Repo(search_parent_directories=True)
@@ -116,13 +116,15 @@ class JsonTest:
         data_to_write += f"Generic average : {average_speed}ms\n\n"
 
         print(data_to_write)
-        # JsonTest.write_result(data_to_write)
-        # print("write result success !")
+        JsonTest.write_result(data_to_write)
 
     @staticmethod
     def write_result(data: str) -> None:
         with open("JsonTest.txt", "a") as file:
             file.write(data)
+        print("write result success !")
 
 
-JsonTest.json_speed_test()
+if __name__ == '__main__':
+    # JsonTest.test_student()
+    JsonTest.json_speed_test()

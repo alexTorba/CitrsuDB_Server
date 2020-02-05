@@ -9,11 +9,16 @@ from Common.JsonLogic.TypeInspect import TypeInspect
 
 class JsonFormatter:
     @staticmethod
-    def __object_to_dict(obj):
+    def serialize(obj: JsonContract) -> str:
         if obj is None or not isinstance(obj, JsonContract):
             raise Exception("the object must implement JsonContract !")
 
-        fields = dict()
+        obj_dict_view = JsonFormatter.__object_to_dict(obj)
+        return dumps(obj_dict_view, ensure_ascii=False)
+
+    @staticmethod
+    def __object_to_dict(obj):
+        fields: dict = dict()
         fields.update(obj.to_minimize_dict())
 
         for k, v in fields.items():
@@ -27,9 +32,11 @@ class JsonFormatter:
         return fields
 
     @staticmethod
-    def serialize(obj: JsonContract) -> str:
-        obj_dict_view = JsonFormatter.__object_to_dict(obj)
-        return dumps(obj_dict_view, ensure_ascii=False)
+    def deserialize(data: str, cls: type):
+        if not isinstance(data, str):
+            raise TypeError("data must be a string !")
+        obj: dict = loads(data)
+        return JsonFormatter.__json_to_instance(obj, cls)
 
     @staticmethod
     def __json_to_instance(obj, cls: type):
@@ -54,10 +61,3 @@ class JsonFormatter:
                 value = JsonFormatter.__json_to_instance(value, type_value)
             setattr(instance, full_field_name, value)
         return instance
-
-    @staticmethod
-    def deserialize(data: str, cls: type):
-        if not isinstance(data, str):
-            raise TypeError("data must be a string !")
-        obj = loads(data)
-        return JsonFormatter.__json_to_instance(obj, cls)
